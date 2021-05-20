@@ -97,7 +97,7 @@ properties = {
     description: "Enable if P11, P12, etc. are used for spindle selection.  Disable if unique M-codes are used for spindle selection.",
     group: 1,
     type: "boolean",
-    value: true,
+    value: false,
     scope: "post"
   },
   gotPartCatcher: {
@@ -1193,7 +1193,7 @@ function onOpen() {
     onCommand(COMMAND_CLOSE_DOOR);
     
     if (gotSecondarySpindle) {
-      writeBlock(mFormat.format(getCode("INTERFERENCE_CHECK_OFF", SPINDLE_MAIN)));
+      //writeBlock(mFormat.format(getCode("INTERFERENCE_CHECK_OFF", SPINDLE_MAIN)));
     }
   }
 
@@ -4350,8 +4350,8 @@ function stopSpindle() {
     sOutput.reset();
   } else {
     writeBlock(
-      mFormat.format(getCode("STOP_SPINDLE", activeSpindle)),
-      spOutput.format(getCode("SELECT_SPINDLE", activeSpindle))
+      mFormat.format(getCode("STOP_SPINDLE", activeSpindle))//,
+      //spOutput.format(getCode("SELECT_SPINDLE", activeSpindle)) //NP removed redundant spindle select code that causes KIA to hang
     );
   }
   lastSpindleSpeed = 0;
@@ -4376,7 +4376,7 @@ function moveSubSpindle(_method, _position, _feed, _useMachineFrame, _comment, _
       writeBlock(
         gMotionModal.format(0),
         //gFormat.format(28), // Removing this because of address duplication error
-        gFormat.format(28),
+        gFormat.format(53), //NP Kia likes G53 home instead of G28
         subOutput.format(0),
         conditional(_comment, formatComment(_comment))
       );
