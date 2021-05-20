@@ -1,4 +1,4 @@
-This is the postprocessor for a KIA SKT21LMS. Mine is serial 0134, built in 2003 with a Fanuc 0i-TB control. It is a work in progress and you use it at your own risk. There is no warranty an dwe are not liable for any damage it may cause to your machine. 
+This is the Fusion 360/HSMworks postprocessor for a KIA SKT21LMS. Mine is serial 0134, built in 2003 with a Fanuc 0i-TB control. It is a work in progress and you use it at your own risk. There is no warranty an dwe are not liable for any damage it may cause to your machine. 
 
 There is a known issue right now where it adds extra G28 home moves between operations with the same tool- you may have to remove those manually, but aside from that it works well. Leave most of the post properties alone. I'm still working on removing the ones that aren't relevant since this was originally the Doosan post and designed to support their whole line of machines. 
 "Use bar puller" will call my bar puller subprogram and pass some macro variables if checked. Probably not relevant for you but I can share it too if you'd like. 
