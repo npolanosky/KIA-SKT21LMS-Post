@@ -602,7 +602,9 @@ var barPullerRadius = properties.barPullerRadius;
 var partUpperZ = 0;
 var partLowerZ = 0;
 var partLengthMacro = (properties.barPullerVariable + 1);
-function getCode(code, spindle) {
+
+
+function getCode(code, spindle) { //ANCHOR M Codes
   switch (code) {
   case "PART_CATCHER_ON":
     return 73;
@@ -687,9 +689,14 @@ function getCode(code, spindle) {
   case "AUTO_AIR_OFF":
     break;
   case "LOCK_MULTI_AXIS":
-    return (spindle == SPINDLE_MAIN) ? 90 : 116;
+    if(spindle == SPINDLE_MAIN){
+      return 90;
+    };
   case "UNLOCK_MULTI_AXIS":
-    return (spindle == SPINDLE_MAIN) ? 91 : 117;
+//return (spindle == SPINDLE_MAIN) ? 91 : 117;
+    if(spindle == SPINDLE_MAIN){
+      return 91;
+    };
   case "CLAMP_CHUCK":
     return (spindle == SPINDLE_MAIN) ? 68 : 118;
   case "UNCLAMP_CHUCK":
@@ -2361,7 +2368,7 @@ function onSection() {
 
   // Turn off interference checking with secondary spindle
   if (getSpindle(PART) == SPINDLE_SUB) {
-    writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
+    //writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
   }
 
   // Live Spindle is active with synchronized C-axes
