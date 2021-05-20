@@ -627,7 +627,11 @@ function getCode(code, spindle) { //ANCHOR M Codes
     return (spindle == SPINDLE_MAIN) ? 43 : 116;
   case "DISABLE_C_AXIS":
     machineState.cAxisIsEngaged = false;
-    return (spindle == SPINDLE_MAIN) ? 40 : 117;
+   // return (spindle == SPINDLE_MAIN) ? 40 : 117;
+   if(spindle == SPINDLE_MAIN){
+    return 40;
+  };
+  break;
   case "POLAR_INTERPOLATION_ON":
     return 12.1;
   case "POLAR_INTERPOLATION_OFF":
@@ -692,11 +696,13 @@ function getCode(code, spindle) { //ANCHOR M Codes
     if(spindle == SPINDLE_MAIN){
       return 90;
     };
+    break;
   case "UNLOCK_MULTI_AXIS":
 //return (spindle == SPINDLE_MAIN) ? 91 : 117;
     if(spindle == SPINDLE_MAIN){
       return 91;
     };
+    break;
   case "CLAMP_CHUCK":
     return (spindle == SPINDLE_MAIN) ? 68 : 118;
   case "UNCLAMP_CHUCK":
@@ -743,6 +749,7 @@ function getCode(code, spindle) { //ANCHOR M Codes
     break;
   case "RIGID_TAPPING":
     return 129;
+    break;
   case "INTERLOCK_BYPASS":
     //return (spindle == SPINDLE_MAIN) ? 31 : 131;
     break;
@@ -2375,7 +2382,7 @@ function onSection() {
   // need to wait until after spindle speed is output to synchronize the C-axes
   if ((tempSpindle == SPINDLE_LIVE) && machineState.spindlesAreAttached) {
     if (!machineState.cAxesAreSynchronized) {
-      writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", SPINDLE_SUB)), formatComment("INTERLOCK BYPASS"));
+      //writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", SPINDLE_SUB)), formatComment("INTERLOCK BYPASS"));
       clampChuck(getSecondarySpindle(), UNCLAMP);
       onDwell(1.0);
       writeBlock(cAxisEngageModal.format(getCode("ENABLE_C_AXIS", SPINDLE_MAIN)));
@@ -3572,7 +3579,7 @@ function onCycle() {
         secondaryHome = !secondaryPull;
       }
 
-      writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
+      //writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
       if (secondaryPull) {
         clampChuck(getSpindle(PART), UNCLAMP);
         onDwell(cycle.dwell);
@@ -3604,7 +3611,7 @@ function onCycle() {
       if (getProperty("gotPartCatcher") && partCutoff && currentSection.partCatcher) {
         engagePartCatcher(true);
       }
-      writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())), formatComment("INTERLOCK BYPASS"));
+      //writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())), formatComment("INTERLOCK BYPASS"));
       clampChuck(getSecondarySpindle(), UNCLAMP);
       onDwell(cycle.dwell);
       gSpindleModeModal.reset();
@@ -3681,7 +3688,7 @@ function onCycle() {
         moveSubSpindle(FEED, cycle.chuckPosition, cycle.feedrate, cycle.useMachineFrame, "", true);
       }
       clampChuck(getSecondarySpindle(), CLAMP);
-      writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSpindle(PART))), formatComment("INTERLOCK BYPASS"));
+      //writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSpindle(PART))), formatComment("INTERLOCK BYPASS"));
       
       onDwell(cycle.dwell);
       machineState.stockTransferIsActive = true;
@@ -4276,7 +4283,7 @@ function startSpindle(tappingMode, forceRPMMode, initialPosition) {
           return;
         }
       } else if (syncStartMethod == SYNC_UNCLAMP) {
-        writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
+        //writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
         clampChuck(getSecondarySpindle(), UNCLAMP);
         onDwell(1.0);
         clampSpindles = true;
@@ -4285,7 +4292,7 @@ function startSpindle(tappingMode, forceRPMMode, initialPosition) {
     // Live tool
     } else {
       if (machineState.cAxesAreSynchronized) {
-        writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
+       // writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSecondarySpindle())));
         clampChuck(getSecondarySpindle(), UNCLAMP);
         onDwell(1.0);
         clampSpindles = true;
@@ -4634,7 +4641,7 @@ function ejectPart() {
     mFormat.format(getCode("START_SPINDLE_CW", spindle)),
     spOutput.format(getCode("SELECT_SPINDLE", spindle))
   );
-  writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", spindle)));
+ // writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", spindle)));
   if (getProperty("gotPartCatcher")) {
     engagePartCatcher(true);
   }
