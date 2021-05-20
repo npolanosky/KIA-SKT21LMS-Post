@@ -7,3 +7,4 @@ Axial and radial milling works great but does not support helical moves in polar
 
 Subspindle support is coming. You can post programs for the sub no problem, it will automatically flip the Z coords for you. Program like it's for the main spindle but tell Fusion it's the sub from the setup menu. That works great, but you still have to program any transfer/sync moves on your own for now. I'm working on that, just low on free time lately so I haven't sorted that out yet. If your machine has a tailstock I am not sure how that is handled so use caution. 
 
+If this helped you out, consider tossing me a few bucks for snacks. https://www.paypal.com/paypalme/npolanosky
