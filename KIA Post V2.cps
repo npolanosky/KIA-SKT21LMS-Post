@@ -604,7 +604,7 @@ var partLowerZ = 0;
 var partLengthMacro = (properties.barPullerVariable + 1);
 
 
-function getCode(code, spindle) { //ANCHOR M Codes
+function getCode(code, spindle) { //ANCHOR M Codes / getCode
   switch (code) {
   case "PART_CATCHER_ON":
     return 73;
@@ -2211,7 +2211,7 @@ function onSection() {
         cAxisEngageModal.reset();
       }
       writeBlock(wcsOut/*, mFormat.format(getSpindle(PART) == SPINDLE_SUB ? 83 : 80)*/);
-      writeBlock(feedMode, gPlaneModal.format(18), cAxisEngageModal.format(getCode("DISABLE_C_AXIS", getSpindle(PART))));
+      writeBlock(feedMode, gPlaneModal.format(18), cAxisEngageModal.format(getCode("DISABLE_C_AXIS", SPINDLE_MAIN)));
     } else {
       writeBlock(feedMode);
     }
@@ -3670,7 +3670,7 @@ function onCycle() {
       transferOrientation = 0;
       if (cycle.stopSpindle) {
         transferOrientation = (cycle.spindleOrientation != undefined) ? cycle.spindleOrientation : transferOrientation;
-        writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", getSpindle(PART))));
+        writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", SPINDLE_MAIN)));
         writeBlock(mFormat.format(getCode("ENABLE_C_AXIS", getSpindle(PART))));
         writeBlock(gMotionModal.format(0), gFormat.format(53), "C" + abcFormat.format(0));
         writeBlock(mFormat.format(getCode("ENABLE_C_AXIS", getSecondarySpindle())));
@@ -4467,7 +4467,7 @@ function unwindCAxis() {
   writeBlock(gMotionModal.format(0), gFormat.format(28), "H" + abcFormat.format(0));
 }
 
-function onCommand(command) {
+function onCommand(command) { //ANCHOR onCommand
   switch (command) {
   case COMMAND_COOLANT_OFF:
     setCoolant(COOLANT_OFF);
@@ -4476,10 +4476,10 @@ function onCommand(command) {
     setCoolant(COOLANT_FLOOD);
     break;
   case COMMAND_LOCK_MULTI_AXIS:
-    writeBlock(cAxisBrakeModal.format(getCode("LOCK_MULTI_AXIS", getSpindle(PART))));
+    writeBlock(cAxisBrakeModal.format(getCode("LOCK_MULTI_AXIS", SPINDLE_MAIN)));
     break;
   case COMMAND_UNLOCK_MULTI_AXIS:
-    writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", getSpindle(PART))));
+    writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", SPINDLE_MAIN)));
     break;
   case COMMAND_START_CHIP_TRANSPORT:
     break;
