@@ -105,7 +105,7 @@ properties = {
     description: "Specifies whether part catcher code should be output.",
     group: 1,
     type: "boolean",
-    value: true,
+    value: false,
     scope: "post"
   },
   partCatcherPosition: {
@@ -123,7 +123,7 @@ properties = {
     type: "boolean",
     group: 1,
     presentation: "yesno",
-    value: true,
+    value: false,
     scope: "post"
   },
   maxTool: {
@@ -132,7 +132,7 @@ properties = {
     group: 2,
     type: "integer",
     range: [0, 999999999],
-    value: 24,
+    value: 12,
     scope: "post"
   },
   maximumSpindleSpeed: {
@@ -141,7 +141,7 @@ properties = {
     group: 2,
     type: "integer",
     range: [0, 999999999],
-    value: 6000,
+    value: 3000,
     scope: "post"
   },
   showSequenceNumbers: {
@@ -286,7 +286,7 @@ properties = {
     description: "Disable to use G1 for rapid moves when multiple axes move in a single block.  Enable to use G0 for all rapid moves.",
     group: 4,
     type: "boolean",
-    value: false,
+    value: true,
     scope: "post"
   },
   useG53ForXfer: {
@@ -312,7 +312,7 @@ properties = {
       {title: "Phase", id: "phase"},
       {title: "Speed", id: "speed"}
     ],
-    value: "phase",
+    value: "speed",
     scope: "post"
   },
   optimizeCaxisSelect: {
@@ -341,7 +341,7 @@ properties = {
       {title: "G133", id: "g133"},
       {title: "Disabled", id: "false"}
     ],
-    value: "true",
+    value: "false",
     scope: "post"
   },
   useSimpleThread: {
@@ -405,7 +405,7 @@ properties = {
     description: "Writes operation notes as comments in the outputted code.",
     group: 6,
     type: "boolean",
-    value: false,
+    value: true,
     scope: "post"
   },
   writeMachine: {
@@ -421,7 +421,7 @@ properties = {
     description: "Output a tool list in the header of the code.",
     group: 6,
     type: "boolean",
-    value: false,
+    value: true,
     scope: "post"
   }
 };
@@ -4853,7 +4853,7 @@ function onClose() {
   writeln("");
   onImpliedCommand(COMMAND_END);
   if (gotSecondarySpindle) {
-    writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_ON", getSpindle(PART))));
+    //writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_ON", getSpindle(PART))));
   }
   if (properties.useBarPuller) {
     writeln("M98 P" + barPullerProgram + formatComment(localize("Bar puller subprogram")));//ANCHOR Barpuller Sub Call
