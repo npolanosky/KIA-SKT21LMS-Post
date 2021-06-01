@@ -2210,7 +2210,7 @@ function onSection() {
       if (!getProperty("optimizeCaxisSelect")) {
         cAxisEngageModal.reset();
       }
-      writeBlock(wcsOut/*, mFormat.format(getSpindle(PART) == SPINDLE_SUB ? 83 : 80)*/);
+      writeBlock(wcsOut, mFormat.format(getSpindle(PART) == SPINDLE_SUB ? 55 : 54));
       writeBlock(feedMode, gPlaneModal.format(18), cAxisEngageModal.format(getCode("DISABLE_C_AXIS", SPINDLE_MAIN)));
     } else {
       writeBlock(feedMode);
