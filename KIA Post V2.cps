@@ -591,17 +591,17 @@ var machineState = {
   cAxesAreSynchronized: false
 };
 
-//Set up macro variables //ANCHOR Bar Puller Variables
-var barPullerPosition = undefined;
-var toolKerf = +properties.partingToolKerf;
-var barPullerVariable = properties.barPullerVariable;
-var barPullerProgram = properties.barPullerProgram;
-var stockDiameter = undefined;
-var barPullerRadius = properties.barPullerRadius;
-//var partLength = 0;
-var partUpperZ = 0;
-var partLowerZ = 0;
-var partLengthMacro = (properties.barPullerVariable + 1);
+// //Set up macro variables //ANCHOR Bar Puller Variables
+// var barPullerPosition = undefined;
+// var toolKerf = +properties.partingToolKerf;
+// var barPullerVariable = properties.barPullerVariable;
+// var barPullerProgram = properties.barPullerProgram;
+// var stockDiameter = undefined;
+// var barPullerRadius = properties.barPullerRadius;
+// //var partLength = 0;
+// var partUpperZ = 0;
+// var partLowerZ = 0;
+// var partLengthMacro = (properties.barPullerVariable + 1);
 
 
 function getCode(code, spindle) { //ANCHOR M Codes / getCode
@@ -1220,28 +1220,28 @@ function onOpen() {
     ejectRoutine = true;
   }
 
-if (properties.useBarPuller){  //Start bar puller stuff //ANCHOR Bar Puller Variables onOpen
-barPullerRadius = (kerfFormat.format(properties.barPullerRadius));
-barPullerPosition = getGlobalParameter("part-lower-z")/(unit == IN ? 25.4 : 1);
-stockDiameter = getGlobalParameter("stock-diameter")/(unit == IN ? 25.4 : 1);
-var barPullerCos = ((barPullerRadius*Math.cos(stockDiameter)));
-var toolKerf = +(kerfFormat.format(properties.partingToolKerf));
-var barPullerPositionComp = spatialFormat.format(barPullerPosition-toolKerf); //+barPullerCos add barpullercos to end for compensation
-var barPullerVariable = properties.barPullerVariable;
-var barPullerProgram = properties.barPullerProgram;
-  // determine starting spindle
-partUpperZ = getGlobalParameter("part-upper-z")/(unit == IN ? 25.4 : 1);
-partLowerZ = getGlobalParameter("part-lower-z")/(unit == IN ? 25.4 : 1);
-partLength = Math.abs((partUpperZ-partLowerZ)); //calculate the length of the required bar pull
-pullLength = spatialFormat.format(partLength+toolKerf);
-//end of puller length stuff
-if (properties.useBarPuller) {
-  writeln("#" + barPullerVariable + " = "+ barPullerPositionComp + formatComment(localize("Bar puller position variable")));
-  writeln("#" + partLengthMacro + " = "+ pullLength + formatComment(localize("Part Length for Bar Pull")));
-  //writeln("(COMPENSATED FOR STOCK DIAMETER " + stockDiameter + " BY ADJUSTING BAR PULLER OUT " + (spatialFormat.format(barPullerCos)) + ")");
-}
-}
-//End bar puller stuff
+// if (properties.useBarPuller){  //Start bar puller stuff //ANCHOR Bar Puller Variables onOpen
+// barPullerRadius = (kerfFormat.format(properties.barPullerRadius));
+// barPullerPosition = getGlobalParameter("part-lower-z")/(unit == IN ? 25.4 : 1);
+// stockDiameter = getGlobalParameter("stock-diameter")/(unit == IN ? 25.4 : 1);
+// var barPullerCos = ((barPullerRadius*Math.cos(stockDiameter)));
+// var toolKerf = +(kerfFormat.format(properties.partingToolKerf));
+// var barPullerPositionComp = spatialFormat.format(barPullerPosition-toolKerf); //+barPullerCos add barpullercos to end for compensation
+// var barPullerVariable = properties.barPullerVariable;
+// var barPullerProgram = properties.barPullerProgram;
+//   // determine starting spindle
+// partUpperZ = getGlobalParameter("part-upper-z")/(unit == IN ? 25.4 : 1);
+// partLowerZ = getGlobalParameter("part-lower-z")/(unit == IN ? 25.4 : 1);
+// partLength = Math.abs((partUpperZ-partLowerZ)); //calculate the length of the required bar pull
+// pullLength = spatialFormat.format(partLength+toolKerf);
+// //end of puller length stuff
+// if (properties.useBarPuller) {
+//   writeln("#" + barPullerVariable + " = "+ barPullerPositionComp + formatComment(localize("Bar puller position variable")));
+//   writeln("#" + partLengthMacro + " = "+ pullLength + formatComment(localize("Part Length for Bar Pull")));
+//   //writeln("(COMPENSATED FOR STOCK DIAMETER " + stockDiameter + " BY ADJUSTING BAR PULLER OUT " + (spatialFormat.format(barPullerCos)) + ")");
+// }
+// }
+// //End bar puller stuff
 
   // determine starting spindle
   switch (getSection(0).spindle) {
@@ -4855,11 +4855,11 @@ function onClose() {
   if (gotSecondarySpindle) {
     //writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_ON", getSpindle(PART))));
   }
-  if (properties.useBarPuller) {
-    writeln("M98 P" + barPullerProgram + formatComment(localize("Bar puller subprogram")));//ANCHOR Barpuller Sub Call
-    writeBlock(mFormat.format(12), formatComment(localize("Increment part counter"))); //increment part counter
-    writeBlock(mFormat.format(99));
-  } else {
+  // if (properties.useBarPuller) {
+  //   writeln("M98 P" + barPullerProgram + formatComment(localize("Bar puller subprogram")));//ANCHOR Barpuller Sub Call
+  //   writeBlock(mFormat.format(12), formatComment(localize("Increment part counter"))); //increment part counter
+  //   writeBlock(mFormat.format(99));
+  // } else {
   if (getProperty("looping")) {
     writeBlock(mFormat.format(54), formatComment(localize("Increment part counter"))); //increment part counter
     writeBlock(mFormat.format(99));
@@ -4867,7 +4867,7 @@ function onClose() {
     writeBlock(mFormat.format(12), formatComment(localize("Increment part counter"))); //increment part counter
     writeBlock(mFormat.format(30)); // stop program, spindle stop, coolant off
   }
-  }
+  //}
   writeln("%");
 }
 
