@@ -2187,13 +2187,13 @@ function onSection() {
       }
       writeBlock(wcsOut/*, mFormat.format(getCode("SET_SPINDLE_FRAME", getSpindle(PART)))*/);
       if (!machineState.spindlesAreAttached) {
-        writeBlock(feedMode, gPlaneModal.format(plane), cAxisEngageModal.format(getCode("ENABLE_C_AXIS", getSpindle(PART))));
+        writeBlock(feedMode, cAxisEngageModal.format(getCode("ENABLE_C_AXIS", getSpindle(PART))));
         unwindCAxis();
         if (!machineState.usePolarMode && !machineState.useXZCMode && !currentSection.isMultiAxis()) {
           onCommand(COMMAND_LOCK_MULTI_AXIS);
         }
       } else {
-        writeBlock(feedMode, gPlaneModal.format(plane));
+        writeBlock(feedMode);
       }
     } else {
       if (machineState.usePolarMode || machineState.useXZCMode || currentSection.isMultiAxis()) {
